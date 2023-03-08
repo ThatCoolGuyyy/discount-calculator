@@ -36,8 +36,8 @@ class discountController extends Controller
         }
 
          // Check for discount 2
-         if (in_array(true, $goat = array_map(function ($item) {
-            return Str::startsWith($item['product-id'], 'A1');
+         if (in_array(true, array_map(function ($item) {
+            return Str::startsWith($item['product-id'], 'B1');
         }, $order['items']))) {
             $categoryTwoProducts = $this->getCategory($order['items'], 'B1'); //change to in_array
             $products = $categoryTwoProducts->filter(function ($product) {
