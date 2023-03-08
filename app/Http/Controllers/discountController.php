@@ -28,6 +28,7 @@ class discountController extends Controller
         }
 
         // Check for discount 1
+        Customer::
         if ($totalOrderValue > 1000.00) {
             $discount += $totalOrderValue * 0.1;
             $category_discount = $totalOrderValue * 0.1;
