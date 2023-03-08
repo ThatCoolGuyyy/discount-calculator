@@ -42,6 +42,5 @@ class discountTest extends TestCase
                 "You have a discount of 1.95 you bought 2 or more products from category 1"
             ],json_decode($response->getContent())->reasons);
 
-        $this->assertTrue(true);
     }
 }
