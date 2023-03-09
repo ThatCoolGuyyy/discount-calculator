@@ -12,7 +12,7 @@ The system provides two types of discounts:
 - Install dependencies by running composer install
 
 ## Usage
-To use the solution, you can create an array of orders and pass it to the  class. The class will return an array of discounts that are applicable to the orders.
+To use the solution, create an array of orders and send it to the `api/discount` endpoint. The response will return the value of the discount and the reason for the discount.
 
 ```php  
 {
@@ -35,4 +35,12 @@ To use the solution, you can create an array of orders and pass it to the  class
   "total": "69.00"
 }
 ```
-- 
+The response will be:
+```php
+{
+    "discount": 2.35,
+    "reasons": [
+        "You have a discount of 2.35 because you bought 2 or more products from category 1"
+    ]
+}
+```

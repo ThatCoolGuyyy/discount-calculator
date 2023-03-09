@@ -25,7 +25,7 @@ trait categoryThreeTrait
         if ($categoryOneProductCount >= 2) {
             $cheapestProduct = $categoryOneProducts->sortBy('unit-price')->first();
             $discount = $cheapestProduct['unit-price'] * 0.2;
-            $reasons[] = "You have a discount of {$discount} you bought 2 or more products from category 1";
+            $reasons[] = "You have a discount of {$discount} because you bought 2 or more products from category 1";
         }
         return [
             'discount' => $discount,
