@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
-use App\Models\Customer;
 use Illuminate\Support\Str;
 use App\Http\Traits\categoryTwoTrait;
 use App\Http\Requests\discountRequest;

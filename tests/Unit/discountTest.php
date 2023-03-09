@@ -5,9 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\Http\Traits\categoryOneTrait;
 use App\Http\Traits\categoryTwoTrait;
-use App\Http\Requests\discountRequest;
 use App\Http\Traits\categoryThreeTrait;
-use App\Http\Controllers\discountController;
 
 class discountTest extends TestCase
 {
@@ -20,7 +18,7 @@ class discountTest extends TestCase
 
     public function test_discountOneFails(){
 
-        $order = [
+        $order = [ // failing because customer of id 4 has not purchased more than €1000.00 worth of products
             "id" => "4",
             "customer-id" => "4",
             "items" => [

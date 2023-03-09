@@ -27,9 +27,8 @@ trait categoryTwoTrait
         $ProductsCount = $products->count();
 
         if ($ProductsCount > 0) {
-            $discount += $products->sum('unit-price');
-            $category_discount = $products->sum('unit-price');
-            $reasons[] = "You have a discount of {$category_discount} because you bought more than 5 products from category 2";
+            $discount = $products->sum('unit-price');
+            $reasons[] = "You have a discount of {$discount} because you bought more than 5 products from category 2";
         }
             return [
             'discount' => $discount,
