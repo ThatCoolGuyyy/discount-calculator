@@ -17,9 +17,7 @@ class discountController extends Controller
 
      public function calculate(discountRequest $request)
     {
-        $input = json_encode($request->input(), true); //converting to string
-        // $order = json_decode(json_encode($request->input(), true), true); //converting to associative array
-        $order = json_decode($input, true); //converting to associative array
+        $order = json_decode(json_encode($request->input(), true), true); //converting to associative array
         $reasons = [];
         $discount = 0;
 
@@ -45,22 +43,12 @@ class discountController extends Controller
             $discountThreeResult = $this->getDiscountThree($order);
         }
 
-        $discount += $discountOneResult['discount'];
-        $discount += $discountTwoResult['discount'];
-        $discount += $discountThreeResult['discount'];
+        $discounts = [$discountOneResult, $discountTwoResult, $discountThreeResult];
 
-        $reasons = array_merge($reasons, $discountOneResult['reasons']);
-        $reasons = array_merge($reasons, $discountTwoResult['reasons']);
-        $reasons = array_merge($reasons, $discountThreeResult['reasons']);
-
-
-        // $discounts = [$discountOneResult, $discountTwoResult, $discountThreeResult];
-        // $reasons = [];
-
-        // foreach ($discounts as $discountResult) {
-        //     $discount += $discountResult['discount'];
-        //     $reasons = array_merge($reasons, $discountResult['reasons']);
-        // }
+        foreach ($discounts as $totalDiscount) {
+            $discount += $totalDiscount['discount'];
+            $reasons = array_merge($reasons, $totalDiscount['reasons']);
+        }
 
 
         return response()->json([

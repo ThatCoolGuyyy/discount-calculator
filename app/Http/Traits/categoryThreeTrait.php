@@ -2,24 +2,19 @@
 
 namespace App\Http\Traits;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use App\Http\Requests\discountRequest;
-use App\Http\Controllers\discountController;
 
 trait categoryThreeTrait
 {
     /**
-     * Get category using id prefix.
+     * Get items in category 1 using id prefix.
      *
      * @param array $items
-     * @param string $prefix
-     * @return 
+     * @return array
      */
 
-    public function getDiscountThree(array $order)
+    public function getDiscountThree(array $order): array
     {
-        // $order = json_decode(json_encode($request->input(), true), true); //converting to associative array
         $reasons = [];
         $discount = 0;
 
