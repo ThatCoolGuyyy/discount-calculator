@@ -7,7 +7,7 @@ The system provides two types of discounts:
 - Discount 2: If the customer buys more than 5 items from category 2, they get a sixth for free.
 - Dicount 3: If the customer buys two or more products of category id 1, they get a 20% discount on the cheapest product.
 
-## Installation
+## Setup
 - Clone the repository
 - Install dependencies by running composer install
 
@@ -44,3 +44,5 @@ The response will be:
     ]
 }
 ```
+## Testing
+The project comes with a set of tests. To run the tests, simply run `php artisan test` in the project directory.
