@@ -5,73 +5,68 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\Customer;
 use Illuminate\Support\Str;
-use App\Http\Traits\discountTrait;
+use App\Http\Traits\categoryTwoTrait;
 use App\Http\Requests\discountRequest;
+use App\Http\Traits\categoryOneTrait;
+use App\Http\Traits\categoryThreeTrait;
 
 
 class discountController extends Controller
 {
-    use discountTrait;
+    use categoryThreeTrait, categoryTwoTrait, categoryOneTrait;
 
      public function calculate(discountRequest $request)
     {
         $input = json_encode($request->input(), true); //converting to string
+        // $order = json_decode(json_encode($request->input(), true), true); //converting to associative array
         $order = json_decode($input, true); //converting to associative array
         $reasons = [];
         $discount = 0;
 
         // Check for discount 1
-        $totalOrderValue = collect($order['total'])->first();
-        $customer_id = collect($order['customer-id'])->first();
-        $customer=Customer::find($customer_id);
-        if ($customer->revenue > 1000.00) {
-            $discount += $totalOrderValue * 0.1;
-            $category_discount = $totalOrderValue * 0.1;
-            $reasons[] = "You have a discount of {$discount} because you bought more than €1000.00 worth of products";
-
-        }
+        $discountOneResult = ['discount' => 0, 'reasons' => []];
+        $discountOneResult = $this->getDiscountOne($order);
 
          // Check for discount 2
+         $discountTwoResult = ['discount' => 0, 'reasons' => []];
          if (in_array(true, array_map(function ($item) {
             return Str::startsWith($item['product-id'], 'B1');
             }, $order['items']))) 
         {
-
-            $categoryTwoProducts = $this->getCategory($order['items'], 'B1'); //change to in_array
-            $products = $categoryTwoProducts->filter(function ($product) {
-                return $product['quantity'] > 5;
-            });
-            $ProductsCount = $products->count();
-            if ($ProductsCount > 0) {
-                $discount += $products->sum('unit-price');
-                $category_discount = $products->sum('unit-price');
-                $reasons[] = "You have a discount of {$category_discount} because you bought more than 5 products from category 2";
-            }
+            $discountTwoResult = $this->getDiscountTwo($order);
         }
 
         // Check for discount 3
-        $categoryOneProductCount = 0;
+        $discountThreeResult = ['discount' => 0, 'reasons' => []];
         if (in_array(true, array_map(function ($item) {
             return Str::startsWith($item['product-id'], 'A1');
             }, $order['items']))) 
         {
-
-            $categoryOneProducts = $this->getCategory($order['items'], 'A1');
-            $categoryOneProductCount = $categoryOneProducts->sum('quantity');
-            if ($categoryOneProductCount >= 2) {
-                $cheapestProduct = $categoryOneProducts->sortBy('unit-price')->first();
-                $discount += $cheapestProduct['unit-price'] * 0.2;
-                $category_discount = $cheapestProduct['unit-price'] * 0.2;
-                $reasons[] = "You have a discount of {$category_discount} you bought 2 or more products from category 1";
-
-            }
+            $discountThreeResult = $this->getDiscountThree($order);
         }
 
-        return response()->json(
-            [
-                'discount' => round($discount, 2),
-                'reasons' => $reasons
-            ]);
+        $discount += $discountOneResult['discount'];
+        $discount += $discountTwoResult['discount'];
+        $discount += $discountThreeResult['discount'];
+
+        $reasons = array_merge($reasons, $discountOneResult['reasons']);
+        $reasons = array_merge($reasons, $discountTwoResult['reasons']);
+        $reasons = array_merge($reasons, $discountThreeResult['reasons']);
+
+
+        // $discounts = [$discountOneResult, $discountTwoResult, $discountThreeResult];
+        // $reasons = [];
+
+        // foreach ($discounts as $discountResult) {
+        //     $discount += $discountResult['discount'];
+        //     $reasons = array_merge($reasons, $discountResult['reasons']);
+        // }
+
+
+        return response()->json([
+            'discount' => round($discount, 2),
+            'reasons' => $reasons,
+        ]);
     }
 }
 
