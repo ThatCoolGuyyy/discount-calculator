@@ -11,7 +11,9 @@ use App\Http\Traits\categoryThreeTrait;
 
 class discountController extends Controller
 {
-    use categoryThreeTrait, categoryTwoTrait, categoryOneTrait;
+    use categoryThreeTrait, 
+        categoryTwoTrait, 
+        categoryOneTrait;
 
      public function calculate(discountRequest $request)
     {

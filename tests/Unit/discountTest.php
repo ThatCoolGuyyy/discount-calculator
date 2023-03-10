@@ -14,7 +14,9 @@ class discountTest extends TestCase
      *
      * @return void
      */
-    use categoryOneTrait, categoryTwoTrait, categoryThreeTrait;
+    use categoryOneTrait, 
+        categoryTwoTrait, 
+        categoryThreeTrait;
 
     public function test_discountOneFails(){
 
@@ -74,7 +76,6 @@ class discountTest extends TestCase
     }
     public function test_discountTwo(){
 
-
         $order = [
             "id" => "3",
             "customer-id" => "3",
@@ -123,7 +124,7 @@ class discountTest extends TestCase
             "total" => "199.50",
         ];
         $expected_discount = 2.35;
-        $expected_reason = "You have a discount of 2.35 you bought 2 or more products from category 1";
+        $expected_reason = "You have a discount of 2.35 because you bought 2 or more products from category 1";
         $discountThreeResult = $this->getDiscountThree($order);
         $this->assertEquals($expected_discount, $discountThreeResult['discount']);
         $this->assertEquals($expected_reason, $discountThreeResult['reasons'][0]);
