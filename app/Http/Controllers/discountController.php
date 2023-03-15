@@ -3,17 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Str;
-use App\Http\Traits\categoryTwoTrait;
 use App\Http\Requests\discountRequest;
-use App\Http\Traits\categoryOneTrait;
-use App\Http\Traits\categoryThreeTrait;
+use App\Http\Traits\categoryTrait;
 
 
 class discountController extends Controller
 {
-    use categoryThreeTrait, 
-        categoryTwoTrait, 
-        categoryOneTrait;
+    use categoryTrait;
 
      public function calculate(discountRequest $request)
     {
@@ -45,11 +41,15 @@ class discountController extends Controller
 
         $discounts = [$discountOneResult, $discountTwoResult, $discountThreeResult];
 
+        // calculate total discount and reasons
         foreach ($discounts as $totalDiscount) {
             $discount += $totalDiscount['discount'];
             $reasons = array_merge($reasons, $totalDiscount['reasons']);
         }
-
+        // response if no discount applied
+        if(!$discount){
+            $reasons = ['No discount applied'];
+        }
 
         return response()->json([
             'discount' => round($discount, 2),

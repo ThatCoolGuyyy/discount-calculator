@@ -3,20 +3,13 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use App\Http\Traits\categoryOneTrait;
-use App\Http\Traits\categoryTwoTrait;
-use App\Http\Traits\categoryThreeTrait;
+use App\Http\Traits\categoryTrait;
+
 
 class discountTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    use categoryOneTrait, 
-        categoryTwoTrait, 
-        categoryThreeTrait;
+    
+    use categoryTrait;
 
     public function test_discountOneFails(){
 
